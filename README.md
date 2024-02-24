@@ -1,2 +1,117 @@
 # currency-converter
-currency converter with APL in HTML &amp; CSS
+# currency converter with APL in HTML &amp; CSS
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Currency Converter</title>
+    
+</head>
+<body>
+<style>
+body {
+    background-image: url('https://e1.pxfuel.com/desktop-wallpaper/802/214/desktop-wallpaper-anime-money-posted-by-christopher-mercado.jpg');
+    margin: 0;
+    padding: 0;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    height: 100vh;
+    font-family: Arial, sans-serif;
+    background-color: #f41414;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+}
+
+.converter {
+    
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+label {
+    margin-bottom: 8px;
+    display: block;
+}
+
+input, select {
+    margin-bottom: 16px;
+    width: 100%;
+    padding: 8px;
+}
+
+button {
+    background-color: #007BFF;
+    color: #fff;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+#result {
+    margin-top: 20px;
+    font-weight: bold;
+}
+</style>
+    <div class="converter">
+        <h2>Currency Converter</h2>
+        <label for="amount"><b>Amount:</b></label>
+        <input type="number" id="amount" placeholder="Enter amount">
+
+        <label for="fromCurrency"><b>From Currency:</b></label>
+        </label>
+        <select id="fromCurrency">
+            <option value="INR">INR</option>
+            <option value="EUR">EUR</option>
+            <option value="USD">USD</option>
+        </select>
+
+        <label for="toCurrency"><b>To Currency:</b></label>
+        <select id="toCurrency">
+            <option value="INR">INR</option>
+            <option value="EUR">EUR</option>
+            <option value="USD">USD</option>
+        </select>
+
+        <button onclick="convertCurrency()">Convert</button>
+
+        <div id="result"></div>
+    </div>
+
+<script>
+    function convertCurrency() {
+    const amount = document.getElementById('amount').value;
+    const fromCurrency = document.getElementById('fromCurrency').value;
+    const toCurrency = document.getElementById('toCurrency').value;
+    
+    const apiKey = 'YOUR_API_KEY';
+    const apiUrl = `https://open.er-api.com/v6/latest/${fromCurrency}?apikey=${apiKey}`;
+
+    fetch(apiUrl)
+        .then(response => response.json())
+        .then(data => {
+            const exchangeRate = data.rates[toCurrency];
+            const convertedAmount = amount * exchangeRate;
+
+            document.getElementById('result').innerText = `${amount} ${fromCurrency} is equal to ${convertedAmount.toFixed(2)} ${toCurrency}`;
+        })
+        .catch(error => {
+            console.error('Error fetching exchange rates:', error);
+            document.getElementById('result').innerText = 'Currency conversion failed.';
+        });
+}
+</script>
+
+</body>
+</html>
